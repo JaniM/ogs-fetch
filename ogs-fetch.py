@@ -10,6 +10,7 @@ def take(iterator, count):
     iterator = iter(iterator)
     if count is None:
         yield from iterator
+        return
     for _ in range(count):
         yield next(iterator)
 
