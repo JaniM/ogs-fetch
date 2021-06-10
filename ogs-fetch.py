@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 import os
 
+FAST_MODE = False
+
 def take(iterator, count):
     iterator = iter(iterator)
     if count is None:
@@ -75,11 +77,11 @@ class GameInfo:
         return game
 
 def throttled_get(*args, throttle_delay=10, **kwargs):
-    # TODO: Add throttling
-    now = time.monotonic()
-    diff = now - throttled_get.last_call
-    if diff < 0.5:
-        time.sleep(0.5 - diff)
+    if not FAST_MODE:
+        now = time.monotonic()
+        diff = now - throttled_get.last_call
+        if diff < 0.5:
+            time.sleep(0.5 - diff)
 
     result = requests.get(*args, **kwargs)
 
@@ -204,7 +206,11 @@ if __name__ == "__main__":
     parser.add_argument('--add', type=int, nargs='*')
     parser.add_argument('-l', '--limit', type=int)
     parser.add_argument('-f', '--fetch', action='store_true')
+    parser.add_argument('--fast', action='store_true')
     args = parser.parse_args()
+
+    if args.fast:
+        FAST_MODE = True
 
     if args.add is not None:
         for user_id in args.add:
