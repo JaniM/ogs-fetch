@@ -3,8 +3,7 @@ Fetches SGF records for players from OGS.
 
 Requires Python 3.6+ and the `requests` library.
 
-[![asciicast](https://asciinema.org/a/HaBRgNJ01PwVCFMjO2dlPCUy8.svg)](https://asciinema.org/a/HaBRgNJ01PwVCFMjO2dlPCUy8)
-
+[![asciicast](https://asciinema.org/a/uAwo6uDZI4DYwf8kDXt30bnFa.svg)](https://asciinema.org/a/uAwo6uDZI4DYwf8kDXt30bnFa?autoplay=1)
 ## Usage
 
 First, add the user(s) you care about to the index. The first time you build the index will take a long time.
