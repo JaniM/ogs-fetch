@@ -42,23 +42,32 @@ class GameInfo:
     name: str
     white: Player
     black: Player
+    width: int
+    height: int
+    date: str
 
     @staticmethod
     def from_dict(dict):
         return GameInfo(
-            id=dict['id'],
+            id=int(dict['id']),
             name=sanitize_name(dict['name']),
             white=Player.from_dict(dict['white']),
             black=Player.from_dict(dict['black']),
+            width=int(dict['width']),
+            height=int(dict['height']),
+            date=dict['date'],
         )
 
     @staticmethod
     def from_api_dict(dict):
         game = GameInfo(
-            id=dict['id'],
+            id=int(dict['id']),
             name=sanitize_name(dict['name']),
             white=Player.from_api_dict(dict['players']['white']),
             black=Player.from_api_dict(dict['players']['black']),
+            width=int(dict['width']),
+            height=int(dict['height']),
+            date=dict['started'].split('T')[0],
         )
         game.white.rank = dict['historical_ratings']['white']['ratings']['overall']['rating']
         game.black.rank = dict['historical_ratings']['black']['ratings']['overall']['rating']
@@ -158,7 +167,7 @@ def get_all_indices():
 
 def load_game(user_id, game_info):
     # These values are already sanitized.
-    game_name = f'{game_info.id} {game_info.name} [{game_info.black.name} vs {game_info.white.name}]'
+    game_name = f'{game_info.id} {game_info.date} {game_info.name} [{game_info.black.name} vs {game_info.white.name}] {game_info.width}x{game_info.height}'
     path = f'./games/{user_id}/{game_name}.sgf'
     if Path(path).exists():
         return
